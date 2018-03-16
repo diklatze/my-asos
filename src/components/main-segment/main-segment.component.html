@@ -4,15 +4,16 @@
       <div class="ui fluid left icon action input">
         <i class="search icon"></i>
         <input [(ngModel)]="inputUrl" type="text" placeholder="Please enter the ASOS URL of the product you would like to check">
-        <div class="ui blue submit button">Search</div>
+        <div class="ui blue submit button" (click)="SubmitUrl()">Search</div>
       </div>
 <p></p>
 
 <div class="ui middle aligned selection divided list">
+ <div class="item">
+<asos-price-segmant></asos-price-segmant>
+ </div>
   <div class="item">
-      <a class="ui green ribbon label">Best Price</a>
-
-    
+      <div class="ui green ribbon label">Best Price</div>   
     <div class="content">
       <div class="header"><div> ASOS US : &nbsp;
         <span class="ui tag labels">
@@ -21,7 +22,7 @@
           </a>
         </span>
       </div>
-
+  
       <div> Available Size : &nbsp;
         <span class="ui circular labels">
           <a class="ui label">
@@ -43,7 +44,7 @@
       </div></div>
     </div>
   </div>
-
+  
   <div class="item">
 
     
@@ -77,16 +78,9 @@
       </div></div>
     </div>
   </div>
-  <div class="item">
-    <div class="content">
-      <div class="header">Christian</div>
-    </div>
-  </div>
-  <div class="item">
-    <div class="content">
-      <div class="header">Daniel</div>
-    </div>
-  </div>
+
+
+
 </div>
       
 

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
   
 import { HomePage } from '../pages/home/home';
 import { AppComponent } from './app.component';
+import { AsosPriceSegmantComponent } from '../components/asos-price-segmant/asos-price-segmant.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { AppComponent } from './app.component';
     PageHeader,
     MainSegmentComponent,
     PageFooter,
+    AsosPriceSegmantComponent,
     
   ],
   imports: [

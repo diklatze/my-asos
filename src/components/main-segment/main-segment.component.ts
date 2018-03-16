@@ -9,11 +9,19 @@ import { Component, OnInit } from '@angular/core';
 export class MainSegmentComponent implements OnInit {
  
   inputUrl : String;
+  indexOfPrd : number;
+  productNumber : String;
 
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  SubmitUrl(){
+    this.indexOfPrd = this.inputUrl.indexOf("prd/");
+    this.productNumber = this.inputUrl.slice(this.indexOfPrd+4,this.indexOfPrd+11);
+
   }
 
 }
