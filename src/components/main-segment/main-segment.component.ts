@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 
 @Component({
@@ -7,21 +9,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-segment.component.css']
 })
 export class MainSegmentComponent implements OnInit {
- 
-  inputUrl : String;
-  indexOfPrd : number;
-  productNumber : String;
+
+  inputUrl: String;
+  indexOfPrd: number;
+  productNumber: String;
+  name:String;
 
 
-  constructor() { }
+  constructor(private http: Http) { }
 
   ngOnInit() {
   }
 
-  SubmitUrl(){
+  SubmitUrl() {
     this.indexOfPrd = this.inputUrl.indexOf("prd/");
-    this.productNumber = this.inputUrl.slice(this.indexOfPrd+4,this.indexOfPrd+11);
+    this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
 
+    this.http.get('http://api.asos.com/product/catalogue/v2/products/'+this.productNumber+'?store=COM&lang=en-GB&sizeSchema=EU&currency=EUR')
+      .map(res => {
+        // If request fails, throw an Error that will be caught
+        if (res.status < 200 || res.status >= 300) {
+          throw new Error('This request has failed ' + res.status);
+        }
+        // If everything went fine, return the response
+        else {
+          return res.json();
+        }
+      })
+      .subscribe(
+      data => {
+        if (data) {
+          this.name = data.name;
+         
+        }
+
+      },
+    );
   }
 
 }

@@ -1,6 +1,6 @@
 import { Binary } from "@angular/compiler";
 
-export class Catagory {
+export class Variant {
 
     id: number;
     name: String;
