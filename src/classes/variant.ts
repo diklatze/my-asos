@@ -1,4 +1,3 @@
-import { Binary } from "@angular/compiler";
 
 export class Variant {
 

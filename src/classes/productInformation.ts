@@ -53,8 +53,8 @@ export class ProcutInformation {
             id: number;
             type: String;
             url: String;
-        }
-    [];
+
+        }[];
     price: {
         current: {
             value: number;
