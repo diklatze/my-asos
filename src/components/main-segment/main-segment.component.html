@@ -6,83 +6,91 @@
         <input [(ngModel)]="inputUrl" type="text" placeholder="Please enter the ASOS URL of the product you would like to check">
         <div class="ui blue submit button" (click)="SubmitUrl()">Search</div>
       </div>
-<p></p>
+      <p></p>
 
-<div class="ui middle aligned selection divided list">
- <a href="https://www.w3schools.com" class="item">
-<asos-price-segmant></asos-price-segmant>
- </a>
-  <div class="item">
-      <div class="ui green ribbon label">Best Price</div>   
-    <div class="content">
-      <div class="header"><div> ASOS US : &nbsp;
-        <span class="ui tag labels">
-          <a class="ui label">
-            $10.00
-          </a>
-        </span>
+      <div class="ui middle aligned selection divided list">
+
+        {{asosPrice.name}}
+        {{asosPricesList[0].name}}
+        <div class="item">
+
+          <asos-price-segmant></asos-price-segmant>
+        </div>
+        <div class="item">
+          <div class="ui green ribbon label">Best Price</div>
+          <div class="content">
+            <div class="header">
+              <div> ASOS US : &nbsp;
+                <span class="ui tag labels">
+                  <a class="ui label">
+                    $10.00
+                  </a>
+                </span>
+              </div>
+
+              <div> Available Size : &nbsp;
+                <span class="ui circular labels">
+                  <a class="ui label">
+                    36
+                  </a>
+                  <a class="ui label">
+                    37
+                  </a>
+                  <a class="ui label">
+                    38
+                  </a>
+                  <a class="ui label">
+                    41
+                  </a>
+                  <a class="ui label">
+                    43
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="item">
+
+
+          <div class="content">
+            <div class="header">
+              <div> ASOS RU : &nbsp;
+                <span class="ui tag labels">
+                  <a class="ui label">
+                    $10.00
+                  </a>
+                </span>
+              </div>
+
+              <div> Available Size : &nbsp;
+                <span class="ui circular labels">
+                  <a class="ui label">
+                    36
+                  </a>
+                  <a class="ui label">
+                    37
+                  </a>
+                  <a class="ui label">
+                    38
+                  </a>
+                  <a class="ui label">
+                    41
+                  </a>
+                  <a class="ui label">
+                    43
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
       </div>
-  
-      <div> Available Size : &nbsp;
-        <span class="ui circular labels">
-          <a class="ui label">
-            36
-          </a>
-          <a class="ui label">
-            37
-          </a>
-          <a class="ui label">
-            38
-          </a>
-          <a class="ui label">
-            41
-          </a>
-          <a class="ui label">
-            43
-          </a>
-        </span>
-      </div></div>
-    </div>
-  </div>
-  
-  <div class="item">
 
-    
-    <div class="content">
-      <div class="header"><div> ASOS RU : &nbsp;
-        <span class="ui tag labels">
-          <a class="ui label">
-            $10.00
-          </a>
-        </span>
-      </div>
-
-      <div> Available Size : &nbsp;
-        <span class="ui circular labels">
-          <a class="ui label">
-            36
-          </a>
-          <a class="ui label">
-            37
-          </a>
-          <a class="ui label">
-            38
-          </a>
-          <a class="ui label">
-            41
-          </a>
-          <a class="ui label">
-            43
-          </a>
-        </span>
-      </div></div>
-    </div>
-  </div>
-
-
-
-</div>
-      
 
 
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
+import {ProductInformation} from '../../classes/productInformation';
+
 
 
 @Component({
@@ -14,9 +16,15 @@ export class MainSegmentComponent implements OnInit {
   indexOfPrd: number;
   productNumber: String;
   name:String;
+  asosPrice:ProductInformation = new ProductInformation;
+
+  asosPricesList: ProductInformation[]=[];
 
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+
+
+   }
 
   ngOnInit() {
   }
@@ -39,7 +47,8 @@ export class MainSegmentComponent implements OnInit {
       .subscribe(
       data => {
         if (data) {
-          this.name = data.name;
+          this.asosPrice=data;
+          this.asosPricesList[0]=this.asosPrice;
          
         }
 

@@ -1,6 +1,6 @@
 import { Variant } from './variant';
 
-export class ProcutInformation {
+export class ProductInformation {
     id: number;
     name: String;
     description: String;

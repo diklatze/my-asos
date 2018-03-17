@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Input,Output } from '@angular/core';
+import {ProductInformation} from '../../classes/productInformation';
+
 
 
 @Component({
@@ -9,7 +11,8 @@ import { Input,Output } from '@angular/core';
 })
 export class AsosPriceSegmantComponent implements OnInit {
 
-  @Input() bestPrice:String;
+  @Input() bestPrice:boolean;
+  @Input() productInformation: ProductInformation; 
 
   constructor() { }
 
