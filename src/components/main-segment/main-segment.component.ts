@@ -17,11 +17,14 @@ export class MainSegmentComponent implements OnInit {
   productNumber: String;
   name:String;
   asosPrice:ProductInformation = new ProductInformation;
+  asosPrice0:ProductInformation = new ProductInformation;
 
-  asosPricesList: ProductInformation[]=[];
+  asosPricesList: ProductInformation[] = [this.asosPrice0];
 
 
   constructor(private http: Http) {
+    
+   
 
 
    }
