@@ -32,6 +32,33 @@ export class MainSegmentComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  callEveryAsos(){
+    this.http.get('http://api.asos.com/product/catalogue/v2/products/'+this.productNumber+'?store=DE&lang=de-DE&sizeSchema=DE&currency=EUR')
+    .map(res => {
+      // If request fails, throw an Error that will be caught
+      if (res.status < 200 || res.status >= 300) {
+        throw new Error('This request has failed ' + res.status);
+      }
+      // If everything went fine, return the response
+      else {
+        return res.json();
+      }
+    })
+    .subscribe(
+    data => {
+      if (data) {
+        this.asosPrice=data;
+        this.asosPricesList[1]=this.asosPrice;
+       
+      }
+
+    },
+  );
+
+
+  }
+
   SubmitUrl() {
     this.indexOfPrd = this.inputUrl.indexOf("prd/");
     this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
@@ -57,6 +84,11 @@ export class MainSegmentComponent implements OnInit {
 
       },
     );
+
+    this.callEveryAsos();
+
   }
+
+
 
 }
