@@ -21,6 +21,7 @@ export class MainSegmentComponent implements OnInit {
   asosPrice: ProductInformation = new ProductInformation;
   asosPricesList: ProductInformation[] = [];
   searchParametersList: SearchParameters[] = SearchParametersList;
+  index:number;
 
   constructor(private http: Http) {
 
@@ -33,7 +34,7 @@ export class MainSegmentComponent implements OnInit {
   }
 
 
-  callEveryAsos(store: String, lang: String, sizeSchema: String, currency: String) {
+  callEveryAsos(index:number,store: String, lang: String, sizeSchema: String, currency: String) {
     this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '=&sizeSchema=' + sizeSchema + '&currency=' + currency)
       .map(res => {
         // If request fails, throw an Error that will be caught
@@ -49,7 +50,7 @@ export class MainSegmentComponent implements OnInit {
       data => {
         if (data) {
           this.asosPrice = data;
-          this.asosPricesList.push(this.asosPrice);
+          this.asosPricesList[index] = this.asosPrice;
 
         }
 
@@ -85,8 +86,10 @@ export class MainSegmentComponent implements OnInit {
       },
     );
 
+    this.index = 0;
     this.searchParametersList.forEach(element => {
-      this.callEveryAsos(element.store,element.lang,element.sizeSchema,element.currency);
+      this.index= this.index+1;
+      this.callEveryAsos(this.index,element.store,element.lang,element.sizeSchema,element.currency);
     });
    
 
