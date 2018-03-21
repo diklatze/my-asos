@@ -1,14 +1,15 @@
 import { SearchParameters } from './searchParameters';
 
 export const SearchParametersList: SearchParameters[] = [
-    { store: "COM" , lang: "en-GB" , sizeSchema:, currency: },
-    { store: 12, name: 'Narco' },
-    { store: 13, name: 'Bombasto' },
-    { store: 14, name: 'Celeritas' },
-    { store: 15, name: 'Magneta' },
-    { store: 16, name: 'RubberMan' },
-    { store: 17, name: 'Dynama' },
-    { store: 18, name: 'Dr IQ' },
-    { store: 19, name: 'Magma' },
-    { store: 20, name: 'Tornado' }
-  ];
+    { store: "COM", lang: "en-GB", sizeSchema: "UK", currency: "GBP" },
+    { store: "DE", lang: "de-DE", sizeSchema: "DE", currency: "EUR" },
+    { store: "AU", lang: "en-AU", sizeSchema: "AU", currency: "AUD" },
+    { store: "US", lang: "en-US", sizeSchema: "US", currency: "USD" },
+    { store: "ES", lang: "es-ES", sizeSchema: "ES", currency: "EUR" },
+    { store: "FR", lang: "fr-FR", sizeSchema: "FR", currency: "EUR" },
+    { store: "IT", lang: "it-IT", sizeSchema: "IT", currency: "EUR" },
+    { store: "AU", lang: "en-AU", sizeSchema: "UK", currency: "AUD" },
+    { store: "RU", lang: "ru-RU", sizeSchema: "RU", currency: "RUB" },
+
+
+];
