@@ -18,10 +18,10 @@ export class MainSegmentComponent implements OnInit {
   indexOfPrd: number;
   productNumber: String;
   name: String;
-  asosPrice: ProductInformation = new ProductInformation;
-  asosPricesList: ProductInformation[] = [];
+  asosInfo: ProductInformation = new ProductInformation;
+  asosInfosList: ProductInformation[] = [];
   searchParametersList: SearchParameters[] = SearchParametersList;
-  index:number;
+  index: number;
 
   constructor(private http: Http) {
 
@@ -34,7 +34,7 @@ export class MainSegmentComponent implements OnInit {
   }
 
 
-  callEveryAsos(index:number,store: String, lang: String, sizeSchema: String, currency: String) {
+  callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country:String) {
     this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + sizeSchema + '&currency=' + currency)
       .map(res => {
         // If request fails, throw an Error that will be caught
@@ -49,9 +49,10 @@ export class MainSegmentComponent implements OnInit {
       .subscribe(
       data => {
         if (data) {
-          this.asosPrice = data;
-          this.asosPricesList[index] = this.asosPrice;
-
+          this.asosInfo = data;
+          this.asosInfosList[index] = this.asosInfo;
+          this.asosInfosList[index].country = country;
+          
         }
 
       },
@@ -63,35 +64,12 @@ export class MainSegmentComponent implements OnInit {
   SubmitUrl() {
     this.indexOfPrd = this.inputUrl.indexOf("prd/");
     this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
-
-    // this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=COM&lang=en-GB&sizeSchema=EU&currency=EUR')
-    //   .map(res => {
-    //     // If request fails, throw an Error that will be caught
-    //     if (res.status < 200 || res.status >= 300) {
-    //       throw new Error('This request has failed ' + res.status);
-    //     }
-    //     // If everything went fine, return the response
-    //     else {
-    //       return res.json();
-    //     }
-    //   })
-    //   .subscribe(
-    //   data => {
-    //     if (data) {
-    //       this.asosPrice = data;
-    //       this.asosPricesList[0] = this.asosPrice;
-
-    //     }
-
-    //   },
-    // );
-
     this.index = -1;
     this.searchParametersList.forEach(element => {
-      this.index= this.index+1;
-      this.callEveryAsos(this.index,element.store,element.lang,element.sizeSchema,element.currency);
+      this.index = this.index + 1;
+      this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency,element.country);
     });
-   
+
 
   }
 
