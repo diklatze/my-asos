@@ -5,13 +5,13 @@
   <div class="header">
     <div> ASOS {{productInformation.country}} : &nbsp;
       <span class="ui tag labels">
-        <a class="ui label">
+        <a class="ui pink label">
           {{productInformation.price.current.text}}
         </a>
       </span>
     </div>
 
-    <div> Available Size : &nbsp;
+    <div *ngIf="productInformation.isInStock"> Available Size : &nbsp;
       <span class="ui circular labels" *ngFor="let availableSize of productInformation.variants" >
        
         <a *ngIf="availableSize.isInStock"class="ui label" >
@@ -21,6 +21,8 @@
         
             </span>
     </div>
+    <div  style="color: #cc3300" *ngIf="!productInformation.isInStock"> Out of stock :( &nbsp;</div>
+
   </div>
 </div>
 <!-- </a> -->
