@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { Headers, Response, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { ProductInformation } from '../../classes/productInformation';
 import { SearchParameters } from '../../classes/searchParameters';
 import { SearchParametersList } from '../../classes/searchParametersList';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 
 
@@ -18,12 +20,15 @@ export class MainSegmentComponent implements OnInit {
   indexOfPrd: number;
   productNumber: String;
   name: String;
-  asosInfo: ProductInformation = new ProductInformation;
+  // asosInfo: ProductInformation = new ProductInformation;
+  asosInfo: any;
+
   asosInfosList: ProductInformation[] = [];
   searchParametersList: SearchParameters[] = SearchParametersList;
   index: number;
+  error: number = 0;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.asosInfosList = new Array<ProductInformation>();
     // this.asosInfosList[0]= new ProductInformation();
 
@@ -35,31 +40,35 @@ export class MainSegmentComponent implements OnInit {
   }
 
 
-  callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country:String) {
+  callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country: String) {
     this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + sizeSchema + '&currency=' + currency)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else {
-          return res.json();
-        }
-      })
+      // .map(res => {
+      //   // If request fails, throw an Error that will be caught
+      //   // if (res.status < 200 || res.status >= 300) {
+      //   //   throw new Error('This request has failed ' + res.status);
+      //   // }
+      //   // // If everything went fine, return the response
+      //   // else {
+      //   //   return res.json();
+      //   }
+      // })
       .subscribe(
+        // err => {
+        //   this.error = 1;
+        // },
       data => {
-        if (data) {
-          this.asosInfo = data;
-          this.asosInfosList[index] = this.asosInfo;
-          this.asosInfosList[index].country = country;
-          
-          
-        }
+
+
+        this.asosInfo = data;
+        this.asosInfosList[index] = this.asosInfo;
+        this.asosInfosList[index].country = country;
+
+
+
 
       },
-    );
 
+      );
 
   }
 
@@ -69,7 +78,7 @@ export class MainSegmentComponent implements OnInit {
     this.index = -1;
     this.searchParametersList.forEach(element => {
       this.index = this.index + 1;
-      this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency,element.country);
+      this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country);
     });
 
 

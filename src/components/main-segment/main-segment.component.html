@@ -4,18 +4,20 @@
       <div class="ui fluid left icon action input">
         <i class="search icon"></i>
         <input [(ngModel)]="inputUrl" type="text" placeholder="Please enter the ASOS URL of the product you would like to check">
-        
+
         <div class="ui blue submit button" (click)="SubmitUrl()">Search</div>
 
       </div>
-      <p></p>
-
+      <p>{{error}}
+      </p>
       <div class="ui middle aligned selection divided list">
-          <h3 style="color: #cc3300">{{asosInfosList[0].name}}</h3>
+        <h3 style="color: #cc3300">{{asosInfosList[0].name}}</h3>
         <div class="item" *ngFor="let asosInfo of asosInfosList">
-          <asos-price-segmant [productInformation]="asosInfo"></asos-price-segmant>
+          <div *ngIf="asosInfo">
+          <asos-price-segmant  [productInformation]="asosInfo"></asos-price-segmant>
         </div>
-        
+        </div>
+
       </div>
     </div>
   </div>

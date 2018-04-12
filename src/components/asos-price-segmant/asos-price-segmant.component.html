@@ -1,28 +1,29 @@
 <!-- <div class="ui green ribbon label">
 
   Best Price</div> -->
-<div class="content">
+<div   class="content">
   <div class="header">
     <div> ASOS {{productInformation.country}} : &nbsp;
       <span class="ui tag labels">
-        <a  class="ui pink label">
+        <a class="ui pink label">
           {{productInformation.price.current.text}}
         </a>
       </span>
     </div>
-    <!-- <div *ngIf="productInformation.errorCode"> Not Avaliable on this country</div> -->
-    <div *ngIf="productInformation.isInStock"> Available Size : &nbsp;
-      <span class="ui circular labels" *ngFor="let availableSize of productInformation.variants">
-
-        <a *ngIf="availableSize.isInStock" class="ui label">
-          <div>{{availableSize.brandSize}}</div>
-        </a>
-
-
-      </span>
+    <div >
+      <div *ngIf="productInformation.isInStock"> Available Size : &nbsp;
+        <span class="ui circular labels" *ngFor="let availableSize of productInformation.variants">
+          
+          <a *ngIf="availableSize.isInStock" class="ui label">
+            <div>{{availableSize.brandSize}}</div>
+          </a>
+          
+          
+        </span>
+      </div>
+      <div style="color: #cc3300" *ngIf="!productInformation.isInStock"> Out of stock :( &nbsp;</div>
     </div>
-    <div style="color: #cc3300" *ngIf="!productInformation.isInStock"> Out of stock :( &nbsp;</div>
-
   </div>
 </div>
+<!-- <div *ngIf="!productInformation"> Not Avaliable on this country</div> -->
 <!-- </a> -->

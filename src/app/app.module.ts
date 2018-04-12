@@ -8,6 +8,8 @@ import { HttpModule } from '@angular/http';
 import { HomePage } from '../pages/home/home';
 import { AppComponent } from './app.component';
 import { AsosPriceSegmantComponent } from '../components/asos-price-segmant/asos-price-segmant.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -21,7 +23,7 @@ import { AsosPriceSegmantComponent } from '../components/asos-price-segmant/asos
     
   ],
   imports: [
-    BrowserModule,HttpModule, FormsModule 
+    BrowserModule,HttpClientModule, FormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent],
