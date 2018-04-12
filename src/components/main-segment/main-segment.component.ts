@@ -73,6 +73,7 @@ export class MainSegmentComponent implements OnInit {
   }
 
   SubmitUrl() {
+    this.asosInfosList = new Array;
     this.indexOfPrd = this.inputUrl.indexOf("prd/");
     this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
     this.index = -1;
