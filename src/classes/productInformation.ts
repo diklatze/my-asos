@@ -2,6 +2,8 @@ import { Variant } from './variant';
 
 export class ProductInformation {
     country : String;
+    errorCode:String;
+    errorMessage:String;
     id: number;
     name: String;
     description: String;
