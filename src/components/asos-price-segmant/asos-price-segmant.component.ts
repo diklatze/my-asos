@@ -15,7 +15,9 @@ export class AsosPriceSegmantComponent implements OnInit {
   @Input() productInformation: ProductInformation; 
   @Input () country: String;
 
-  constructor() { }
+  constructor() {
+    
+   }
 
   ngOnInit() {
   }

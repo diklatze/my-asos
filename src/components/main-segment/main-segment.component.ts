@@ -24,7 +24,8 @@ export class MainSegmentComponent implements OnInit {
   index: number;
 
   constructor(private http: Http) {
-
+    this.asosInfosList = new Array<ProductInformation>();
+    // this.asosInfosList[0]= new ProductInformation();
 
 
 
@@ -52,6 +53,7 @@ export class MainSegmentComponent implements OnInit {
           this.asosInfo = data;
           this.asosInfosList[index] = this.asosInfo;
           this.asosInfosList[index].country = country;
+          
           
         }
 
