@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { Headers, Response, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { ProductInformation } from '../../classes/productInformation';
 import { SearchParameters } from '../../classes/searchParameters';
 import { SearchParametersList } from '../../classes/searchParametersList';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ViewChild, Directive, ElementRef, OnDestroy, OnInit, Input } from '@angular/core';
+
+declare var $: any
+
 
 
 
@@ -22,21 +26,48 @@ export class MainSegmentComponent implements OnInit {
   name: String;
   // asosInfo: ProductInformation = new ProductInformation;
   asosInfo: any;
+  chosenCurrency:String;
+  chosenScheme:String;
 
   asosInfosList: ProductInformation[] = [];
   searchParametersList: SearchParameters[] = SearchParametersList;
   index: number;
   error: number = 0;
+  @ViewChild('currencyDropdown') currencyDropdownElementRef: ElementRef;
+  @ViewChild('schemeDropdown') schemeDropdownElementRef: ElementRef;
+
+
+ 
 
   constructor(private http: HttpClient) {
     this.asosInfosList = new Array<ProductInformation>();
     // this.asosInfosList[0]= new ProductInformation();
-
+ 
+   
+   ;
 
 
   }
 
   ngOnInit() {
+
+    $(this.currencyDropdownElementRef.nativeElement)
+      .dropdown({
+        setFluidWidth: false,
+        direction: false,
+        overflow: true
+
+      })
+      ;
+
+      $(this.schemeDropdownElementRef.nativeElement)
+      .dropdown({
+        setFluidWidth: false,
+        direction: false,
+        overflow: true
+
+      })
+      ;
   }
 
 

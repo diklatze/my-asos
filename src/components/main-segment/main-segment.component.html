@@ -3,10 +3,42 @@
     <div class="ui aligned basic segment">
       <div class="ui fluid left icon action input">
         <i class="search icon"></i>
-        <input [(ngModel)]="inputUrl" type="text" placeholder="Please enter the ASOS URL of the product you would like to check">
+        <input [(ngModel)]="inputUrl" type="text" placeholder="Please enter the ASOS URL of the product">
 
-        <div class="ui blue submit button" (click)="SubmitUrl()">Search</div>
+        <div class="ui right labeled input">
+          <select [(ngModel)]="chosenCurrency" class="ui fluid dropdown form-control" #currencyDropdown>
+            <option value="">Currency</option>
+            <option>£ GBP</option>
+            <option>$ USD</option>
+            <option>€ EUR</option>
+            <option>$ AUD</option>
+            <option>₪ ILS</option>
 
+
+          </select>
+
+          <div class="ui right labeled input">
+            <select [(ngModel)]="chosenScheme" class="ui fluid dropdown form-control" #schemeDropdown>
+              <option value="">Scheme</option>
+              <option>UK</option>
+              <option>US</option>
+              <option>EU</option>
+
+
+            </select>
+            <!-- <div class="ui dropdown label" #schemeDropdown>
+              <div class="text">Scheme</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item">UK</div>
+                <div class="item">US</div>
+                <div class="item">EUR</div>
+              </div>
+            </div> -->
+            <div class="ui blue submit button" (click)="SubmitUrl()">Search</div>
+          </div>
+
+        </div>
       </div>
       <p>
       </p>
@@ -14,20 +46,19 @@
         <h3 style="color: #cc3300">{{asosInfosList[0].name}}</h3>
         <div class="item" *ngFor="let asosInfo of asosInfosList">
           <div *ngIf="asosInfo">
-          <asos-price-segmant  [productInformation]="asosInfo"></asos-price-segmant>
-        </div>
+            <asos-price-segmant [productInformation]="asosInfo"></asos-price-segmant>
+          </div>
         </div>
 
       </div>
     </div>
+
+
+
+
+
+
+
+
+
   </div>
-
-
-
-
-
-
-
-
-
-</div>
