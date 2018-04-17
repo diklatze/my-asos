@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { Headers, Response, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { ProductInformation } from '../../classes/productInformation';
@@ -26,8 +26,8 @@ export class MainSegmentComponent implements OnInit {
   name: String;
   // asosInfo: ProductInformation = new ProductInformation;
   asosInfo: any;
-  chosenCurrency:String;
-  chosenScheme:String;
+  chosenCurrency: String;
+  chosenScheme: String;
 
   asosInfosList: ProductInformation[] = [];
   searchParametersList: SearchParameters[] = SearchParametersList;
@@ -37,14 +37,14 @@ export class MainSegmentComponent implements OnInit {
   @ViewChild('schemeDropdown') schemeDropdownElementRef: ElementRef;
 
 
- 
+
 
   constructor(private http: HttpClient) {
     this.asosInfosList = new Array<ProductInformation>();
     // this.asosInfosList[0]= new ProductInformation();
- 
-   
-   ;
+
+
+    ;
 
 
   }
@@ -60,7 +60,7 @@ export class MainSegmentComponent implements OnInit {
       })
       ;
 
-      $(this.schemeDropdownElementRef.nativeElement)
+    $(this.schemeDropdownElementRef.nativeElement)
       .dropdown({
         setFluidWidth: false,
         direction: false,
@@ -72,34 +72,89 @@ export class MainSegmentComponent implements OnInit {
 
 
   callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country: String) {
-    this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + sizeSchema + '&currency=' + currency)
-      // .map(res => {
-      //   // If request fails, throw an Error that will be caught
-      //   // if (res.status < 200 || res.status >= 300) {
-      //   //   throw new Error('This request has failed ' + res.status);
-      //   // }
-      //   // // If everything went fine, return the response
-      //   // else {
-      //   //   return res.json();
-      //   }
-      // })
-      .subscribe(
-        // err => {
-        //   this.error = 1;
-        // },
-      data => {
+    if (this.chosenScheme == "EU") {
+      if (store == "DE" || store == "ES" || store == "FR") {
+        this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + sizeSchema + '&currency=' + currency)
+          .subscribe(
+
+          data => {
 
 
-        this.asosInfo = data;
-        this.asosInfosList[index] = this.asosInfo;
-        this.asosInfosList[index].country = country;
+            this.asosInfo = data;
+            this.asosInfosList[index] = this.asosInfo;
+            this.asosInfosList[index].country = country;
 
 
 
 
-      },
+          },
+
+        );
+
+      }
+
+      else {
+        this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + this.chosenScheme + '&currency=' + currency)
+
+        .subscribe(
+
+        data => {
+
+
+          this.asosInfo = data;
+          this.asosInfosList[index] = this.asosInfo;
+          this.asosInfosList[index].country = country;
+
+
+
+
+        },
 
       );
+
+
+      }
+    }
+
+    else if (this.chosenScheme) {
+      this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + this.chosenScheme + '&currency=' + currency)
+        .subscribe(
+
+        data => {
+
+
+          this.asosInfo = data;
+          this.asosInfosList[index] = this.asosInfo;
+          this.asosInfosList[index].country = country;
+
+
+
+
+        },
+
+      );
+
+
+    }
+    else {
+      this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + sizeSchema + '&currency=' + currency)
+
+        .subscribe(
+
+        data => {
+
+
+          this.asosInfo = data;
+          this.asosInfosList[index] = this.asosInfo;
+          this.asosInfosList[index].country = country;
+
+
+
+
+        },
+
+      );
+    }
 
   }
 
