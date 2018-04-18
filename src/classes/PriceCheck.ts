@@ -4,4 +4,5 @@ export class PriceCheck {
     localPrice:String;
     chosenCurrencyPrice: String;
     chosenCurrency:String;  
+    rate:number;
 }

@@ -28,6 +28,7 @@ export class MainSegmentComponent implements OnInit {
   name: String;
   // asosInfo: ProductInformation = new ProductInformation;
   asosInfo: any;
+  rateInfo:any;
   chosenCurrency: String;
   chosenScheme: String;
 
@@ -36,6 +37,7 @@ export class MainSegmentComponent implements OnInit {
 
   searchParametersList: SearchParameters[] = SearchParametersList;
   index: number;
+  pricesIndex:number;
   error: number = 0;
   @ViewChild('currencyDropdown') currencyDropdownElementRef: ElementRef;
   @ViewChild('schemeDropdown') schemeDropdownElementRef: ElementRef;
@@ -63,17 +65,43 @@ export class MainSegmentComponent implements OnInit {
 
       })
       ;
-
-    $(this.schemeDropdownElementRef.nativeElement)
+      
+      $(this.schemeDropdownElementRef.nativeElement)
       .dropdown({
         setFluidWidth: false,
         direction: false,
         overflow: true
-
+        
       })
       ;
-  }
+    }
+    
+    callPriceRate(chosenCurrency : String) {
+      this.http.get('http://www.floatrates.com/daily/'+chosenCurrency+'.json')
+      .subscribe(
 
+      data => {
+        this.rateInfo = data;
+        this.pricesList.forEach(element => {
+          let local = element.localCurrency;
+          element.rate = this.rateInfo.local.rate;
+          
+        });
+
+        
+
+
+
+
+
+      },
+
+    );
+
+  
+  
+  
+    }
 
   callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country: String) {
     if (this.chosenScheme == "EU") {
@@ -180,15 +208,27 @@ export class MainSegmentComponent implements OnInit {
     this.indexOfPrd = this.inputUrl.indexOf("prd/");
     this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
     this.index = -1;
+    this.pricesIndex=-1;
     this.searchParametersList.forEach(element => {
       this.index = this.index + 1;
       this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country);
+
     });
 
+    
+      if (this.chosenCurrency) {
+        this.chosenCurrency = this.chosenCurrency;
+      }
+      else {
+        this.chosenCurrency = "gbp";
+      }
+this.callPriceRate(this.chosenCurrency);
 
-
+     
 
   }
+
+
 
 
 
