@@ -6,23 +6,25 @@
         <input [(ngModel)]="inputUrl" type="text" placeholder="Please enter the ASOS URL of the product">
 
         <div class="ui right labeled input">
-          <select [(ngModel)]="chosenCurrency" class="ui fluid dropdown form-control" #currencyDropdown>
+          <select [(ngModel)]="chosenCurrency" class="ui fluid search selection dropdown" #currencyDropdown>
             <option value="">Currency</option>
-            <option>£ GBP</option>
-            <option>$ USD</option>
-            <option>€ EUR</option>
-            <option>$ AUD</option>
-            <option>₪ ILS</option>
+            <option>GBP (£) </option>
+            <option>USD ($) </option>
+            <option>EUR (€) </option>
+            <option>AUD ($)</option>
+            <option>ILS (₪)</option>
+            <option>By Local</option>
 
 
           </select>
 
           <div class="ui right labeled input">
-            <select [(ngModel)]="chosenScheme" class="ui fluid dropdown form-control" #schemeDropdown>
+            <select [(ngModel)]="chosenScheme" class="ui fluid search selection dropdown" #schemeDropdown>
               <option value="">Scheme</option>
               <option>UK</option>
               <option>US</option>
               <option>EU</option>
+              <option>By Local</option>
 
 
             </select>

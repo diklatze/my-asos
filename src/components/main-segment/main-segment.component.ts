@@ -4,6 +4,8 @@ import 'rxjs/add/operator/map';
 import { ProductInformation } from '../../classes/productInformation';
 import { SearchParameters } from '../../classes/searchParameters';
 import { SearchParametersList } from '../../classes/searchParametersList';
+import { PriceCheck } from '../../classes/PriceCheck';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ViewChild, Directive, ElementRef, OnDestroy, OnInit, Input } from '@angular/core';
 
@@ -30,6 +32,8 @@ export class MainSegmentComponent implements OnInit {
   chosenScheme: String;
 
   asosInfosList: ProductInformation[] = [];
+  pricesList: PriceCheck[] = [];
+
   searchParametersList: SearchParameters[] = SearchParametersList;
   index: number;
   error: number = 0;
@@ -41,7 +45,7 @@ export class MainSegmentComponent implements OnInit {
 
   constructor(private http: HttpClient) {
     this.asosInfosList = new Array<ProductInformation>();
-    // this.asosInfosList[0]= new ProductInformation();
+    this.pricesList = new Array<PriceCheck>();
 
 
     ;
@@ -83,6 +87,9 @@ export class MainSegmentComponent implements OnInit {
             this.asosInfo = data;
             this.asosInfosList[index] = this.asosInfo;
             this.asosInfosList[index].country = country;
+            this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
+            this.pricesList[index].localCurrency = currency;
+
 
 
 
@@ -96,27 +103,31 @@ export class MainSegmentComponent implements OnInit {
       else {
         this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + this.chosenScheme + '&currency=' + currency)
 
-        .subscribe(
+          .subscribe(
 
-        data => {
-
-
-          this.asosInfo = data;
-          this.asosInfosList[index] = this.asosInfo;
-          this.asosInfosList[index].country = country;
+          data => {
 
 
+            this.asosInfo = data;
+            this.asosInfosList[index] = this.asosInfo;
+            this.asosInfosList[index].country = country;
+            this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
+            this.pricesList[index].localCurrency = currency;
 
 
-        },
 
-      );
+
+
+
+          },
+
+        );
 
 
       }
     }
 
-    else if (this.chosenScheme) {
+    else if (this.chosenScheme && this.chosenScheme != "By Local") {
       this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + this.chosenScheme + '&currency=' + currency)
         .subscribe(
 
@@ -126,6 +137,9 @@ export class MainSegmentComponent implements OnInit {
           this.asosInfo = data;
           this.asosInfosList[index] = this.asosInfo;
           this.asosInfosList[index].country = country;
+          this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
+          this.pricesList[index].localCurrency = currency;
+
 
 
 
@@ -136,7 +150,7 @@ export class MainSegmentComponent implements OnInit {
 
 
     }
-    else {
+    else if (!this.chosenScheme || this.chosenScheme == "By Local") {
       this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + sizeSchema + '&currency=' + currency)
 
         .subscribe(
@@ -147,6 +161,9 @@ export class MainSegmentComponent implements OnInit {
           this.asosInfo = data;
           this.asosInfosList[index] = this.asosInfo;
           this.asosInfosList[index].country = country;
+          this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
+          this.pricesList[index].localCurrency = currency;
+
 
 
 
@@ -167,6 +184,8 @@ export class MainSegmentComponent implements OnInit {
       this.index = this.index + 1;
       this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country);
     });
+
+
 
 
   }
