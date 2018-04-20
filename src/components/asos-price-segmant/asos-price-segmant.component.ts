@@ -14,6 +14,7 @@ export class AsosPriceSegmantComponent implements OnInit {
   @Input() bestPrice:boolean;
   @Input() productInformation: ProductInformation; 
   @Input () country: String;
+  @Input () chosenCurrency: String;
 
   constructor() {
     

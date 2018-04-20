@@ -1,6 +1,8 @@
 import { Variant } from './variant';
 
 export class ProductInformation {
+    priceByChosenCurrency:number;
+    chosenCurrency:String;
     country : String;
     errorCode:String;
     errorMessage:String;
