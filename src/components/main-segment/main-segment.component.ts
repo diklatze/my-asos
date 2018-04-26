@@ -80,6 +80,43 @@ export class MainSegmentComponent implements OnInit {
       })
       ;
   }
+  calcThePrice(currencyRates : CurrencyRates, localPrice: number, localCurrency:String) {
+    
+    let priceByChosenCurrency:number;
+
+    if (localCurrency.toUpperCase()=="USD"){
+      priceByChosenCurrency = (localPrice / currencyRates.usd.rate);
+
+    }
+
+    else if (localCurrency.toUpperCase()=="GBP"){
+      priceByChosenCurrency = (localPrice / currencyRates.gbp.rate);
+
+    }
+
+    else if (localCurrency.toUpperCase()=="EUR"){
+      priceByChosenCurrency = (localPrice / currencyRates.eur.rate);
+
+    }
+
+    else if (localCurrency.toUpperCase()=="AUD"){
+      priceByChosenCurrency = (localPrice / currencyRates.aud.rate);
+
+    }
+
+    else if (localCurrency.toUpperCase()=="RUB"){
+      priceByChosenCurrency = (localPrice / currencyRates.rub.rate);
+
+    }
+
+    else if (localCurrency.toUpperCase()=="ILS"){
+      priceByChosenCurrency = (localPrice / currencyRates.ils.rate);
+
+    }
+
+    return priceByChosenCurrency;
+    
+  }
 
   callPriceRate(chosenCurrency: String) {
     this.http.get('http://www.floatrates.com/daily/' + chosenCurrency + '.json')
@@ -88,162 +125,97 @@ export class MainSegmentComponent implements OnInit {
         this.rateInfo = data;
         this.currencyRates = this.rateInfo;
       },
-
-
     );
-    // if (this.currencyRates.usd == null) {
-    //   this.currencyRates.usd.rate = 1;
-
-    // }
-
-    // else if (this.currencyRates.aud == null) {
-    //   this.currencyRates.aud.rate = 1;
-
-    // }
-
-    // else if (this.currencyRates.eur == null) {
-    //   this.currencyRates.eur.rate = 1;
-
-    // }
-
-    // else if (this.currencyRates.gbp == null) {
-    //   this.currencyRates.gbp.rate = 1;
-
-    // }
-
-
-
-
-
   }
 
-  callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country: String) {
-
+  callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country: String,chosenCurrency:String) {
     if (this.chosenScheme == "EU") {
       if (store == "DE" || store == "ES" || store == "FR") {
         this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + sizeSchema + '&currency=' + currency)
           .subscribe(
           data => {
-
-
             this.asosInfo = data;
             this.asosInfosList[index] = this.asosInfo;
+            if(chosenCurrency == currency){
+              this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
+              }
             this.asosInfosList[index].country = country;
             this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
             this.pricesList[index].localCurrency = currency;
-
-
-
-
-
-          },
-
-        );
-
-      }
-
-      else {
-        this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + this.chosenScheme + '&currency=' + currency)
-
-          .subscribe(
-
-          data => {
-
-
-            this.asosInfo = data;
-            this.asosInfosList[index] = this.asosInfo;
-            this.asosInfosList[index].country = country;
-            // this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
-            // this.pricesList[index].localCurrency = currency;
-
-            if (this.asosInfosList[index].price.currency == this.chosenCurrency){
+            if (this.asosInfosList[index].price.currency == this.chosenCurrency) {
               this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
 
             }
-           
-            else if (this.currencyRates.aud.code ==  this.asosInfosList[index].price.currency) {
-              this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value / (this.currencyRates.aud.rate);
-      
-            }
-      
-            else if (this.currencyRates.usd.code == this.asosInfosList[index].price.currency) {
-              this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value / (this.currencyRates.usd.rate);
-      
-            }
-      
-            else if (this.currencyRates.ils.code == this.asosInfosList[index].price.currency) {
-              this.asosInfosList[index].priceByChosenCurrency= this.asosInfosList[index].price.current.value / (this.currencyRates.ils.rate);
-      
-            }
-      
-            else if (this.currencyRates.gbp.code == this.asosInfosList[index].price.currency) {
-              this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value / (this.currencyRates.gbp.rate);
-      
-            }
-      
-            else if (this.currencyRates.eur.code == this.asosInfosList[index].price.currency) {
-              this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value / (this.currencyRates.eur.rate);
-      
-            }
+          },
+        );
+      }
+      else {
+        this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + this.chosenScheme + '&currency=' + currency)
+          .subscribe(
+          data => {
+            this.asosInfo = data;
+            this.asosInfosList[index] = this.asosInfo;
+            if(chosenCurrency == currency){
+              this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
+              }
 
-
-
+              else {
+                this.asosInfosList[index].priceByChosenCurrency=this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
+              }
+              
+            this.asosInfosList[index].country = country;
+            this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
+            this.pricesList[index].localCurrency = currency;
+            
 
 
 
           },
-
         );
-
-
       }
     }
-
     else if (this.chosenScheme && this.chosenScheme != "By Local") {
       this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + this.chosenScheme + '&currency=' + currency)
         .subscribe(
-
         data => {
-
-
           this.asosInfo = data;
           this.asosInfosList[index] = this.asosInfo;
+          if(this.chosenCurrency == currency){
+            this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
+            }
+            else {
+              this.asosInfosList[index].priceByChosenCurrency=this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
+            }
           this.asosInfosList[index].country = country;
           this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
           this.pricesList[index].localCurrency = currency;
-
-
-
-
-
+         
         },
-
       );
-
-
     }
     else if (!this.chosenScheme || this.chosenScheme == "By Local") {
       this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + sizeSchema + '&currency=' + currency)
-
         .subscribe(
-
         data => {
-
-
           this.asosInfo = data;
+          
           this.asosInfosList[index] = this.asosInfo;
+          if(this.chosenCurrency == currency){
+          this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
+          }
+          else {
+            this.asosInfosList[index].priceByChosenCurrency=this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
+          }
           this.asosInfosList[index].country = country;
           this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
           this.pricesList[index].localCurrency = currency;
 
-
-
-
-
+          
         },
 
       );
     }
+    return this.pricesList;
 
   }
 
@@ -259,35 +231,11 @@ export class MainSegmentComponent implements OnInit {
     this.pricesIndex = -1;
     this.searchParametersList.forEach(element => {
       this.index = this.index + 1;
-      this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country);
+      this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country,this.chosenCurrency);
 
     });
-
-    this.asosInfosList.forEach(element => {
-      let storeCurrency = element.price.currency;
-
-
-      
-
-
-
-    });
-
-
-
-
-
-
-
-
-
-
-
-
   }
 
 
-
-
-
+  
 }

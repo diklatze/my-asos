@@ -5,7 +5,7 @@
         <i class="search icon"></i>
         <input [(ngModel)]="inputUrl" type="text" placeholder="Please enter the ASOS URL of the product">
         <div class="ui right labeled input">
-          <select [(ngModel)]="chosenCurrency" class="ui fluid search selection dropdown" #currencyDropdown>
+          <select [(ngModel)]="chosenCurrency" (change)="SubmitUrl()" class="ui fluid search selection dropdown" #currencyDropdown>
             <option value="">Currency</option>
             <option>GBP</option><!--(£)-->
             <option>USD</option><!--($)-->
@@ -16,7 +16,7 @@
 
 
           <div class="ui right labeled input">
-            <select [(ngModel)]="chosenScheme" class="ui fluid search selection dropdown" #schemeDropdown>
+            <select [(ngModel)]="chosenScheme" (change)="SubmitUrl()" class="ui fluid search selection dropdown" #schemeDropdown>
               <option value="">Scheme</option>
               <option>UK</option>
               <option>US</option>
