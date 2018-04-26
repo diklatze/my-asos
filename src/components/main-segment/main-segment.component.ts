@@ -35,6 +35,7 @@ export class MainSegmentComponent implements OnInit {
   chosenCurrency: String;
   chosenScheme: String;
   currencyRates: CurrencyRates;
+  doneRate:boolean;
 
   asosInfosList: ProductInformation[] = [];
   pricesList: PriceCheck[] = [];
