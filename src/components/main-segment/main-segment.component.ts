@@ -33,9 +33,10 @@ export class MainSegmentComponent implements OnInit {
   asosInfo: any;
   rateInfo: any;
   chosenCurrency: String;
+  chosenCurrnecyCopy: String;
   chosenScheme: String;
   currencyRates: CurrencyRates;
-  doneRate:boolean;
+  doneRate: boolean = false;
 
   asosInfosList: ProductInformation[] = [];
   pricesList: PriceCheck[] = [];
@@ -56,12 +57,24 @@ export class MainSegmentComponent implements OnInit {
     this.currencyRates = new CurrencyRates();
 
 
+
     ;
 
 
   }
 
+  ngOnChanges() {
+
+    this.callPriceRate(this.chosenCurrency);
+  }
+
+
   ngOnInit() {
+
+    if (!this.chosenCurrency) {
+      this.chosenCurrency = "GBP";
+    }
+    this.callPriceRate(this.chosenCurrency);
 
     $(this.currencyDropdownElementRef.nativeElement)
       .dropdown({
@@ -81,42 +94,42 @@ export class MainSegmentComponent implements OnInit {
       })
       ;
   }
-  calcThePrice(currencyRates : CurrencyRates, localPrice: number, localCurrency:String) {
-    
-    let priceByChosenCurrency:number;
+  calcThePrice(currencyRates: CurrencyRates, localPrice: number, localCurrency: String) {
 
-    if (localCurrency.toUpperCase()=="USD"){
+    let priceByChosenCurrency: number;
+
+    if (localCurrency.toUpperCase() == "USD") {
       priceByChosenCurrency = (localPrice / currencyRates.usd.rate);
 
     }
 
-    else if (localCurrency.toUpperCase()=="GBP"){
+    else if (localCurrency.toUpperCase() == "GBP") {
       priceByChosenCurrency = (localPrice / currencyRates.gbp.rate);
 
     }
 
-    else if (localCurrency.toUpperCase()=="EUR"){
+    else if (localCurrency.toUpperCase() == "EUR") {
       priceByChosenCurrency = (localPrice / currencyRates.eur.rate);
 
     }
 
-    else if (localCurrency.toUpperCase()=="AUD"){
+    else if (localCurrency.toUpperCase() == "AUD") {
       priceByChosenCurrency = (localPrice / currencyRates.aud.rate);
 
     }
 
-    else if (localCurrency.toUpperCase()=="RUB"){
+    else if (localCurrency.toUpperCase() == "RUB") {
       priceByChosenCurrency = (localPrice / currencyRates.rub.rate);
 
     }
 
-    else if (localCurrency.toUpperCase()=="ILS"){
+    else if (localCurrency.toUpperCase() == "ILS") {
       priceByChosenCurrency = (localPrice / currencyRates.ils.rate);
 
     }
 
     return priceByChosenCurrency;
-    
+
   }
 
   callPriceRate(chosenCurrency: String) {
@@ -124,12 +137,26 @@ export class MainSegmentComponent implements OnInit {
       .subscribe(
       data => {
         this.rateInfo = data;
+        this.doneRate = true;
         this.currencyRates = this.rateInfo;
+        this.asosInfosList = new Array;
+        this.indexOfPrd = this.inputUrl.indexOf("prd/");
+        this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
+        this.index = -1;
+        this.pricesIndex = -1;
+
+
+        this.searchParametersList.forEach(element => {
+          this.index = this.index + 1;
+          this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country, this.chosenCurrency);
+
+        });
+
       },
     );
   }
 
-  callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country: String,chosenCurrency:String) {
+  callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country: String, chosenCurrency: String) {
     if (this.chosenScheme == "EU") {
       if (store == "DE" || store == "ES" || store == "FR") {
         this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + sizeSchema + '&currency=' + currency)
@@ -137,9 +164,9 @@ export class MainSegmentComponent implements OnInit {
           data => {
             this.asosInfo = data;
             this.asosInfosList[index] = this.asosInfo;
-            if(chosenCurrency == currency){
+            if (chosenCurrency == currency) {
               this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
-              }
+            }
             this.asosInfosList[index].country = country;
             this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
             this.pricesList[index].localCurrency = currency;
@@ -156,18 +183,18 @@ export class MainSegmentComponent implements OnInit {
           data => {
             this.asosInfo = data;
             this.asosInfosList[index] = this.asosInfo;
-            if(chosenCurrency == currency){
+            if (chosenCurrency == currency) {
               this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
-              }
+            }
 
-              else {
-                this.asosInfosList[index].priceByChosenCurrency=this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
-              }
-              
+            else {
+              this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
+            }
+
             this.asosInfosList[index].country = country;
             this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
             this.pricesList[index].localCurrency = currency;
-            
+
 
 
 
@@ -181,16 +208,16 @@ export class MainSegmentComponent implements OnInit {
         data => {
           this.asosInfo = data;
           this.asosInfosList[index] = this.asosInfo;
-          if(this.chosenCurrency == currency){
+          if (this.chosenCurrency == currency) {
             this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
-            }
-            else {
-              this.asosInfosList[index].priceByChosenCurrency=this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
-            }
+          }
+          else {
+            this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
+          }
           this.asosInfosList[index].country = country;
           this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
           this.pricesList[index].localCurrency = currency;
-         
+
         },
       );
     }
@@ -199,19 +226,19 @@ export class MainSegmentComponent implements OnInit {
         .subscribe(
         data => {
           this.asosInfo = data;
-          
+
           this.asosInfosList[index] = this.asosInfo;
-          if(this.chosenCurrency == currency){
-          this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
+          if (this.chosenCurrency == currency) {
+            this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
           }
           else {
-            this.asosInfosList[index].priceByChosenCurrency=this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
+            this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
           }
           this.asosInfosList[index].country = country;
           this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
           this.pricesList[index].localCurrency = currency;
 
-          
+
         },
 
       );
@@ -220,23 +247,29 @@ export class MainSegmentComponent implements OnInit {
 
   }
 
-  SubmitUrl() {
+  async SubmitUrl() {
+    this.chosenCurrnecyCopy = this.chosenCurrency;
+
     if (!this.chosenCurrency) {
       this.chosenCurrency = "GBP";
     }
     this.callPriceRate(this.chosenCurrency);
-    this.asosInfosList = new Array;
-    this.indexOfPrd = this.inputUrl.indexOf("prd/");
-    this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
-    this.index = -1;
-    this.pricesIndex = -1;
-    this.searchParametersList.forEach(element => {
-      this.index = this.index + 1;
-      this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country,this.chosenCurrency);
+    // await this.callPriceRate;
+    // this.asosInfosList = new Array;
+    // this.indexOfPrd = this.inputUrl.indexOf("prd/");
+    // this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
+    // this.index = -1;
+    // this.pricesIndex = -1; 
 
-    });
+
+    // this.searchParametersList.forEach(element => {
+    //   this.index = this.index + 1;
+    //   this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country, this.chosenCurrency);
+
+    // });
+
   }
 
 
-  
+
 }
