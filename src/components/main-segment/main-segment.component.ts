@@ -63,10 +63,10 @@ export class MainSegmentComponent implements OnInit {
 
   }
 
-  ngOnChanges() {
+  // ngOnChanges() {
 
-    this.callPriceRate(this.chosenCurrency);
-  }
+  //   this.callPriceRate(this.chosenCurrency);
+  // }
 
 
   ngOnInit() {
@@ -137,7 +137,7 @@ export class MainSegmentComponent implements OnInit {
       .subscribe(
       data => {
         this.rateInfo = data;
-        this.doneRate = true;
+        this.chosenCurrnecyCopy = this.chosenCurrency;
         this.currencyRates = this.rateInfo;
         this.asosInfosList = new Array;
         this.indexOfPrd = this.inputUrl.indexOf("prd/");
@@ -248,12 +248,12 @@ export class MainSegmentComponent implements OnInit {
   }
 
   async SubmitUrl() {
-    this.chosenCurrnecyCopy = this.chosenCurrency;
-
+    
     if (!this.chosenCurrency) {
       this.chosenCurrency = "GBP";
     }
     this.callPriceRate(this.chosenCurrency);
+    // this.chosenCurrnecyCopy = this.chosenCurrency;
     // await this.callPriceRate;
     // this.asosInfosList = new Array;
     // this.indexOfPrd = this.inputUrl.indexOf("prd/");
