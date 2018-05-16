@@ -2,6 +2,7 @@ import { Variant } from './variant';
 
 export class ProductInformation {
     priceByChosenCurrency:number;
+    bestPrice:boolean;
     chosenCurrency:String;
     country : String;
     errorCode:String;

@@ -37,6 +37,8 @@ export class MainSegmentComponent implements OnInit {
   chosenScheme: String;
   currencyRates: CurrencyRates;
   doneRate: boolean = false;
+  indexOfMin:number;
+  minPrice:number;
 
   asosInfosList: ProductInformation[] = [];
   pricesList: PriceCheck[] = [];
@@ -93,6 +95,21 @@ export class MainSegmentComponent implements OnInit {
 
       })
       ;
+  }
+
+  checkIfBest(index:number){
+    if (index == 0) {
+      this.minPrice = this.asosInfosList[0].priceByChosenCurrency;
+      this.indexOfMin=0;
+      this.asosInfosList[0].bestPrice = true;
+    }
+    else if (this.asosInfosList[index].priceByChosenCurrency < this.minPrice) {
+      this.minPrice = this.asosInfosList[index].priceByChosenCurrency;
+      this.asosInfosList[this.indexOfMin].bestPrice = false;
+      this.indexOfMin=index;
+      this.asosInfosList[this.indexOfMin].bestPrice = true;
+    }
+
   }
   calcThePrice(currencyRates: CurrencyRates, localPrice: number, localCurrency: String) {
 
@@ -157,6 +174,7 @@ export class MainSegmentComponent implements OnInit {
   }
 
   callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country: String, chosenCurrency: String) {
+    
     if (this.chosenScheme == "EU") {
       if (store == "DE" || store == "ES" || store == "FR") {
         this.http.get('http://api.asos.com/product/catalogue/v2/products/' + this.productNumber + '?store=' + store + '&lang=' + lang + '&sizeSchema=' + sizeSchema + '&currency=' + currency)
@@ -170,8 +188,9 @@ export class MainSegmentComponent implements OnInit {
 
             else {
               this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
+              
             }
-
+            this.checkIfBest(index);
             this.asosInfosList[index].country = country;
             this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
             this.pricesList[index].localCurrency = currency;
@@ -192,6 +211,7 @@ export class MainSegmentComponent implements OnInit {
             else {
               this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
             }
+            this.checkIfBest(index);
 
             this.asosInfosList[index].country = country;
             this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
@@ -216,6 +236,8 @@ export class MainSegmentComponent implements OnInit {
           else {
             this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
           }
+          this.checkIfBest(index);
+
           this.asosInfosList[index].country = country;
           this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
           this.pricesList[index].localCurrency = currency;
@@ -236,6 +258,8 @@ export class MainSegmentComponent implements OnInit {
           else {
             this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
           }
+          this.checkIfBest(index);
+
           this.asosInfosList[index].country = country;
           this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
           this.pricesList[index].localCurrency = currency;
@@ -246,35 +270,18 @@ export class MainSegmentComponent implements OnInit {
       );
     }
 
-    if(index==7){
-      let minPrice=this.asosInfosList[0].priceByChosenCurrency;
-      
-
-    }
+    
+    
     return this.pricesList;
 
   }
 
   async SubmitUrl() {
-    
+
     if (!this.chosenCurrency) {
       this.chosenCurrency = "GBP";
     }
     this.callPriceRate(this.chosenCurrency);
-    // this.chosenCurrnecyCopy = this.chosenCurrency;
-    // await this.callPriceRate;
-    // this.asosInfosList = new Array;
-    // this.indexOfPrd = this.inputUrl.indexOf("prd/");
-    // this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
-    // this.index = -1;
-    // this.pricesIndex = -1; 
-
-
-    // this.searchParametersList.forEach(element => {
-    //   this.index = this.index + 1;
-    //   this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country, this.chosenCurrency);
-
-    // });
 
   }
 
