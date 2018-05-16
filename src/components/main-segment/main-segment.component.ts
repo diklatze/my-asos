@@ -167,13 +167,15 @@ export class MainSegmentComponent implements OnInit {
             if (chosenCurrency == currency) {
               this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
             }
+
+            else {
+              this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
+            }
+
             this.asosInfosList[index].country = country;
             this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
             this.pricesList[index].localCurrency = currency;
-            if (this.asosInfosList[index].price.currency == this.chosenCurrency) {
-              this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
 
-            }
           },
         );
       }
@@ -242,6 +244,12 @@ export class MainSegmentComponent implements OnInit {
         },
 
       );
+    }
+
+    if(index==7){
+      let minPrice=this.asosInfosList[0].priceByChosenCurrency;
+      
+
     }
     return this.pricesList;
 

@@ -5,9 +5,11 @@
   <div class="header">
     <div> ASOS {{productInformation.country}} : &nbsp;
       <span class="ui tag labels">
-        <a class="ui pink label">
+        <a class="ui label">
           {{productInformation.price.current.text}}
-          ({{productInformation.priceByChosenCurrency|currency:chosenCurrency}})
+        </a>
+        <a class="ui teal label">
+          {{productInformation.priceByChosenCurrency|currency:chosenCurrency}}
         </a>
       </span>
     </div>
