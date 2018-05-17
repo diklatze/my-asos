@@ -45,7 +45,8 @@
         <h3 style="color: #cc3300">{{asosInfosList[0].name}}</h3>
         <div class="item" *ngFor="let asosInfo of asosInfosList">
           <div *ngIf="asosInfo">
-            <asos-price-segmant [productInformation]="asosInfo" [chosenCurrency]="chosenCurrnecyCopy"></asos-price-segmant>
+            <!-- {{asosInfo.siteUrl}} -->
+            <a  href={{asosInfo.siteUrl}} target="_blank"><asos-price-segmant [productInformation]="asosInfo" [chosenCurrency]="chosenCurrnecyCopy"></asos-price-segmant></a>
           </div>
         </div>
 

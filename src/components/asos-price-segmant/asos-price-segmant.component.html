@@ -11,22 +11,24 @@
         <a class="ui teal label">
           {{productInformation.priceByChosenCurrency|currency:chosenCurrency}}
         </a>
+        <span style="float:right;"> <i  right floated class="shopping bag icon"></i></span>
       </span>
     </div>
     <div >
       <div *ngIf="productInformation.isInStock"> Available Size : &nbsp;
         <span class="ui circular labels" *ngFor="let availableSize of productInformation.variants">
-          
+
           <a *ngIf="availableSize.isInStock" class="ui label">
             <div>{{availableSize.brandSize}}</div>
           </a>
           
-          
+
         </span>
       </div>
       <div style="color: #cc3300" *ngIf="!productInformation.isInStock"> Out of stock :( &nbsp;</div>
     </div>
   </div>
+
 </div>
 <!-- <div *ngIf="!productInformation"> Not Avaliable on this country</div> -->
 <!-- </a> -->

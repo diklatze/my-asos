@@ -27,8 +27,10 @@ export class MainSegmentComponent implements OnInit {
 
   inputUrl: String;
   indexOfPrd: number;
+  indexOfUrl:number;
   productNumber: String;
   name: String;
+  cutUrl:string;
   // asosInfo: ProductInformation = new ProductInformation;
   asosInfo: any;
   rateInfo: any;
@@ -157,15 +159,18 @@ export class MainSegmentComponent implements OnInit {
         this.chosenCurrnecyCopy = this.chosenCurrency;
         this.currencyRates = this.rateInfo;
         this.asosInfosList = new Array;
+        this.indexOfUrl = this.inputUrl.indexOf("/asos/");
         this.indexOfPrd = this.inputUrl.indexOf("prd/");
         this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
+        this.cutUrl = this.inputUrl.slice(this.indexOfUrl, this.inputUrl.length+1);
+
         this.index = -1;
         this.pricesIndex = -1;
 
 
         this.searchParametersList.forEach(element => {
           this.index = this.index + 1;
-          this.callEveryAsos(this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country, this.chosenCurrency);
+          this.callEveryAsos(this.cutUrl,element.sitePrefix,this.index, element.store, element.lang, element.sizeSchema, element.currency, element.country, this.chosenCurrency);
 
         });
 
@@ -173,7 +178,7 @@ export class MainSegmentComponent implements OnInit {
     );
   }
 
-  callEveryAsos(index: number, store: String, lang: String, sizeSchema: String, currency: String, country: String, chosenCurrency: String) {
+  callEveryAsos(cutUrl:string,prefix:string,index: number, store: String, lang: String, sizeSchema: String, currency: String, country: String, chosenCurrency: String) {
     
     if (this.chosenScheme == "EU") {
       if (store == "DE" || store == "ES" || store == "FR") {
@@ -182,6 +187,7 @@ export class MainSegmentComponent implements OnInit {
           data => {
             this.asosInfo = data;
             this.asosInfosList[index] = this.asosInfo;
+            this.asosInfosList[index].siteUrl=prefix.concat(cutUrl);
             if (chosenCurrency == currency) {
               this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
             }
@@ -204,6 +210,8 @@ export class MainSegmentComponent implements OnInit {
           data => {
             this.asosInfo = data;
             this.asosInfosList[index] = this.asosInfo;
+            this.asosInfosList[index].siteUrl=prefix.concat(cutUrl);
+
             if (chosenCurrency == currency) {
               this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
             }
@@ -230,6 +238,8 @@ export class MainSegmentComponent implements OnInit {
         data => {
           this.asosInfo = data;
           this.asosInfosList[index] = this.asosInfo;
+          this.asosInfosList[index].siteUrl=prefix.concat(cutUrl);
+
           if (this.chosenCurrency == currency) {
             this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
           }
@@ -252,6 +262,8 @@ export class MainSegmentComponent implements OnInit {
           this.asosInfo = data;
 
           this.asosInfosList[index] = this.asosInfo;
+          this.asosInfosList[index].siteUrl=prefix.concat(cutUrl);
+
           if (this.chosenCurrency == currency) {
             this.asosInfosList[index].priceByChosenCurrency = this.asosInfosList[index].price.current.value;
           }

@@ -5,6 +5,7 @@ export class SearchParameters {
     sizeSchema: String;
     currency: String;
     country:String;
+    sitePrefix:string;
 
 
 }
