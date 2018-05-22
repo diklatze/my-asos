@@ -30,6 +30,7 @@ export class MainSegmentComponent implements OnInit {
   indexOfUrl:number;
   productNumber: String;
   name: String;
+  splitedUrl:string;
   cutUrl:string;
   // asosInfo: ProductInformation = new ProductInformation;
   asosInfo: any;
@@ -159,10 +160,27 @@ export class MainSegmentComponent implements OnInit {
         this.chosenCurrnecyCopy = this.chosenCurrency;
         this.currencyRates = this.rateInfo;
         this.asosInfosList = new Array;
-        this.indexOfUrl = this.inputUrl.indexOf("/asos/");
+        
+        //this.indexOfUrl = this.inputUrl.indexOf("/asos/");
+        
+        var split = this.inputUrl.split("/",4);
+        this.splitedUrl = split[3];
+        // if(this.splitedUrl.charAt(2)=="\/"){
+        //   this.splitedUrl = this.splitedUrl.slice(2)
+        // }
+        this.indexOfUrl = this.inputUrl.indexOf("/"+this.splitedUrl+"/");
+// alert(this.splitedUrl);
         this.indexOfPrd = this.inputUrl.indexOf("prd/");
-        this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);
-        this.cutUrl = this.inputUrl.slice(this.indexOfUrl, this.inputUrl.length+1);
+       
+        if(this.inputUrl.charAt(this.indexOfPrd + 11)!="?"){
+          this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 12);
+
+        }
+        else{ this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 11);}
+       
+         
+        this.cutUrl = this.inputUrl.slice(this.indexOfUrl);
+        // this.cutUrl = this.inputUrl.slice(this.indexOfUrl, this.inputUrl.length+1);
 
         this.index = -1;
         this.pricesIndex = -1;
