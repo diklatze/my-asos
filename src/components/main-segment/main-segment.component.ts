@@ -42,6 +42,7 @@ export class MainSegmentComponent implements OnInit {
   doneRate: boolean = false;
   indexOfMin:number;
   minPrice:number= Number.MAX_SAFE_INTEGER;
+  notAvailableUrl:boolean=false;
 
   asosInfosList: ProductInformation[] = [];
   pricesList: PriceCheck[] = [];
@@ -170,16 +171,17 @@ export class MainSegmentComponent implements OnInit {
         this.currencyRates = this.rateInfo;
         this.asosInfosList = new Array;
         
-        //this.indexOfUrl = this.inputUrl.indexOf("/asos/");
-        
+                
         var split = this.inputUrl.split("/",4);
         this.splitedUrl = split[3];
-        // if(this.splitedUrl.charAt(2)=="\/"){
-        //   this.splitedUrl = this.splitedUrl.slice(2)
-        // }
+       
         this.indexOfUrl = this.inputUrl.indexOf("/"+this.splitedUrl+"/");
-// alert(this.splitedUrl);
         this.indexOfPrd = this.inputUrl.indexOf("prd/");
+
+        if(this.indexOfPrd == -1){
+          this.notAvailableUrl = true;
+
+        }
        
         if(this.inputUrl.charAt(this.indexOfPrd + 11)!="?"){
           this.productNumber = this.inputUrl.slice(this.indexOfPrd + 4, this.indexOfPrd + 12);
@@ -189,7 +191,6 @@ export class MainSegmentComponent implements OnInit {
        
          
         this.cutUrl = this.inputUrl.slice(this.indexOfUrl);
-        // this.cutUrl = this.inputUrl.slice(this.indexOfUrl, this.inputUrl.length+1);
 
         this.index = -1;
         this.pricesIndex = -1;
@@ -317,6 +318,7 @@ export class MainSegmentComponent implements OnInit {
 
   async SubmitUrl() {
     this.minPrice= Number.MAX_SAFE_INTEGER;
+    this.notAvailableUrl=false;
 
 
     if (!this.chosenCurrency) {

@@ -41,7 +41,15 @@
       </div>
       <p>
       </p>
-      <div class="ui middle aligned selection divided list">
+      <div *ngIf="notAvailableUrl"  class="ui negative message">
+        <i class="close icon"></i>
+        <div class="header">
+          Not Avaliable URL!
+        </div>
+        Please paste the Url from Asos Site! <br>for exmple: <br>http://www.asos.com/gift-republic/gift-republic-dino-soap/prd/9083311?clr=multi&<br>SearchQuery=&cid=18654&gridcolumn=2&gridrow=5&gridsize=4&pge=1&pgesize=72&totalstyles=106
+      </div>
+
+      <div *ngIf="!notAvailableUrl" class="ui middle aligned selection divided list">
         <h3 style="color: #cc3300">{{asosInfosList[0].name}}</h3>
         <div class="item" *ngFor="let asosInfo of asosInfosList">
           <div *ngIf="asosInfo">
