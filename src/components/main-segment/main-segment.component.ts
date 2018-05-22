@@ -41,7 +41,7 @@ export class MainSegmentComponent implements OnInit {
   currencyRates: CurrencyRates;
   doneRate: boolean = false;
   indexOfMin:number;
-  minPrice:number;
+  minPrice:number= Number.MAX_SAFE_INTEGER;
 
   asosInfosList: ProductInformation[] = [];
   pricesList: PriceCheck[] = [];
@@ -75,6 +75,8 @@ export class MainSegmentComponent implements OnInit {
 
 
   ngOnInit() {
+    this.indexOfMin=0;
+    this.minPrice= Number.MAX_SAFE_INTEGER;
 
     if (!this.chosenCurrency) {
       this.chosenCurrency = "GBP";
@@ -101,12 +103,19 @@ export class MainSegmentComponent implements OnInit {
   }
 
   checkIfBest(index:number){
-    if (index == 0) {
-      this.minPrice = this.asosInfosList[0].priceByChosenCurrency;
-      this.indexOfMin=0;
-      this.asosInfosList[0].bestPrice = true;
-    }
-    else if (this.asosInfosList[index].priceByChosenCurrency < this.minPrice) {
+    // if (index == 0) {
+    //   this.minPrice = this.asosInfosList[0].priceByChosenCurrency;
+    //   this.indexOfMin=0;
+    //   this.asosInfosList[0].bestPrice = true;
+    // }
+    // else if (this.asosInfosList[index].priceByChosenCurrency < this.minPrice) {
+    //   this.minPrice = this.asosInfosList[index].priceByChosenCurrency;
+    //   this.asosInfosList[this.indexOfMin].bestPrice = false;
+    //   this.indexOfMin=index;
+    //   this.asosInfosList[this.indexOfMin].bestPrice = true;
+    // }
+
+    if (this.asosInfosList[index].priceByChosenCurrency < this.minPrice) {
       this.minPrice = this.asosInfosList[index].priceByChosenCurrency;
       this.asosInfosList[this.indexOfMin].bestPrice = false;
       this.indexOfMin=index;
@@ -214,8 +223,8 @@ export class MainSegmentComponent implements OnInit {
               this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
               
             }
-            this.checkIfBest(index);
             this.asosInfosList[index].country = country;
+            this.checkIfBest(index);
             this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
             this.pricesList[index].localCurrency = currency;
 
@@ -237,9 +246,9 @@ export class MainSegmentComponent implements OnInit {
             else {
               this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
             }
+            this.asosInfosList[index].country = country;
             this.checkIfBest(index);
 
-            this.asosInfosList[index].country = country;
             this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
             this.pricesList[index].localCurrency = currency;
 
@@ -264,9 +273,9 @@ export class MainSegmentComponent implements OnInit {
           else {
             this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
           }
+          this.asosInfosList[index].country = country;
           this.checkIfBest(index);
 
-          this.asosInfosList[index].country = country;
           this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
           this.pricesList[index].localCurrency = currency;
 
@@ -288,9 +297,9 @@ export class MainSegmentComponent implements OnInit {
           else {
             this.asosInfosList[index].priceByChosenCurrency = this.calcThePrice(this.currencyRates, this.asosInfosList[index].price.current.value, currency)
           }
+          this.asosInfosList[index].country = country;
           this.checkIfBest(index);
 
-          this.asosInfosList[index].country = country;
           this.pricesList[index].localPrice = this.asosInfosList[index].price.current.text;
           this.pricesList[index].localCurrency = currency;
 
@@ -307,6 +316,8 @@ export class MainSegmentComponent implements OnInit {
   }
 
   async SubmitUrl() {
+    this.minPrice= Number.MAX_SAFE_INTEGER;
+
 
     if (!this.chosenCurrency) {
       this.chosenCurrency = "GBP";
